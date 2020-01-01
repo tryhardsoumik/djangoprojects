@@ -1,0 +1,64 @@
+{% extends 'polls/base.html' %}
+{% block title %}
+<title> welcome to index</title>
+
+{% endblock title %}
+{% block content %}
+<div class="container">
+<br>
+{% if messages%} <!see if there  are any messages>
+{% for message in messages%}
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+{{message}} <!connect with view.py>
+
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+{%endfor%}
+{%endif%}
+<form method="POST" class="row">
+{% csrf_token %}<!this is needed in Django to work with post method security purpose>
+  
+    <label class="col-lg-4">Your Tasks For Today</label>
+    
+    <input type="text" class="form-control col-lg-6" name ="task"placeholder="New Task">
+    
+  <! here i have used bootstrap so that i can use those 12 column to divide and make the template view nice>
+  
+  <button type="submit" class="btn btn-primary col-lg-2">Add Task</button>
+</form>
+<br>
+ <table class="table table-striped table-dark">
+  
+  <tbody>
+  {% if all_tasks%} <! this is to validate the content if no tasks are there> 
+    {% for obj in all_tasks%}
+      <! for loop is used for fetch all the data by entering into each query in object>
+    
+             {%if obj.done%}
+  
+    <tr class="table-success">
+      <td>{{obj.id}} | {{obj.task}}</td>
+      <td> <a href="{% url 'pending_task' obj.id  %}">mark this pending</a></td>
+      <td><a href="{% url 'edit_task' obj.id  %}">Edit</a></td>
+    
+      <td><a href="{% url 'delete_task' obj.id  %}">Delete</a></td>
+    </tr> 
+    {%else%}
+     <tr>
+      <td>{{obj.id}} | {{obj.task}}</td>
+      <td><a href="{% url 'complete_task' obj.id  %}">mark this completed </a></td>
+       <td><a href="{% url 'edit_task' obj.id  %}">Edit</a></td>
+      <td><a href="{% url 'delete_task' obj.id  %}">Delete</a></td>
+       <! dynamic url whenever href>
+    </tr>
+    
+{% endif %}
+    {%endfor%}
+    {% endif%}
+    </tbody>
+</table>
+</div>
+ 
+ {% endblock content %}

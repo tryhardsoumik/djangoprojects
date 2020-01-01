@@ -1,0 +1,23 @@
+{% extends 'polls/base.html' %}
+{% block title %}
+<title> Edit </title>
+
+{% endblock title %}
+{% block content %}
+<div class="container">
+<br>
+<form method="POST" class="row">
+{% csrf_token %}<!this is needed in Django to work with post method security purpose>
+  
+    <label class="col-lg-2"></label>
+    <input type="text" class="form-control col-lg-6" name="task" placeholder="{{task_obj.task}}" vlaue="task_obj.done">
+    <input type="hidden" name ="done"value="{{task_obj.done}}"><!even if we edit a completed task it shows
+    incomplete as by default it is false, so there should be a hidden input>
+    
+  <! here i have used bootstrap so that i can use those 12 column to divide and make the template view nice>
+  
+  <button type="submit" class="btn btn-primary col-lg-2"> Update Task</button>
+</form>
+</div>
+ 
+ {% endblock content %}
